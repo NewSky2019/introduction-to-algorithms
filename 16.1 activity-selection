@@ -1,0 +1,33 @@
+startTimes=[3,5,6,8,8,2,12,5,0,1,3]
+finishTimes=[5,9,10,11,12,14,16,7,6,4,9]
+
+def f(startTimes,finishTimes):
+   nums=0
+   compatibleSetStartTimes=startTimes
+   compatibleSetFinishTimes=finishTimes
+   while len(compatibleSetStartTimes)>0:
+       earliestFinishOne=0
+       for i in range(len(compatibleSetStartTimes)):
+           if compatibleSetFinishTimes[i]<compatibleSetFinishTimes[earliestFinishOne]:
+               earliestFinishOne=i
+
+       nums=nums+1
+
+       newCompatibleSetStartTimes=[]
+       newCompatibleSetFinishTimes=[]
+
+       for i in range(len(compatibleSetStartTimes)):
+           if compatibleSetStartTimes[i]>compatibleSetFinishTimes[earliestFinishOne] or compatibleSetFinishTimes[i]<compatibleSetStartTimes[earliestFinishOne]:
+               newCompatibleSetStartTimes.append(compatibleSetStartTimes[i])
+               newCompatibleSetFinishTimes.append(compatibleSetFinishTimes[i])
+
+       compatibleSetStartTimes=newCompatibleSetStartTimes
+       compatibleSetFinishTimes=newCompatibleSetFinishTimes
+
+
+   return nums
+
+
+print(f(startTimes,finishTimes))
+
+
