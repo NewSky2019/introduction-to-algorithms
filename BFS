@@ -1,0 +1,62 @@
+class Vertex:
+    def __init__(self,id):
+        self.id=id
+        self.connectedTo={}
+        self.color="white"
+        self.distance=float('inf')
+        self.predecessor=None
+
+    def addNeighbor(self,nbr,weight):
+        self.connectedTo[nbr]=weight
+
+
+class Graph:
+    def __init__(self):
+        self.vertexList={}
+
+    def addVertex(self,id):
+        newVertex=Vertex(id)
+        self.vertexList[id]=newVertex
+
+    def addEdges(self,f,t,weight):
+        fromVertex=self.vertexList[f]
+        destinationVertex=self.vertexList[t]
+        fromVertex.addNeighbor(destinationVertex,weight)
+
+
+def bfs(G,s):
+    s.color="grey"
+    s.distance=0
+    Queue=[]
+    Queue.append(s)
+    print(s.id)
+
+    while len(Queue)!=0:
+        currentVertex=Queue.pop(0)
+        for nbr in currentVertex.connectedTo:
+            if nbr.color=="white":
+                print(nbr.id)
+                nbr.color="grey"
+                nbr.predecessor=currentVertex
+                nbr.distance=currentVertex.distance+1
+                Queue.append(nbr)
+
+        currentVertex.color="black"
+
+
+theGraph=Graph()
+
+for i in range(6):
+    theGraph.addVertex(i)
+
+theGraph.addEdges(0,1,5)
+theGraph.addEdges(0,5,2)
+theGraph.addEdges(1,2,4)
+theGraph.addEdges(2,3,9)
+theGraph.addEdges(3,4,7)
+theGraph.addEdges(3,5,3)
+theGraph.addEdges(4,0,1)
+theGraph.addEdges(5,4,8)
+theGraph.addEdges(5,2,1)
+
+bfs(theGraph,theGraph.vertexList[0])
