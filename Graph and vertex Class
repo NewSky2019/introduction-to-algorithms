@@ -1,0 +1,44 @@
+class Vertex:
+    def __init__(self,id):
+        self.id=id
+        self.connectedTo={}
+
+    def addNeighbor(self,nbr,weight):
+        self.connectedTo[nbr]=weight
+
+
+class Graph:
+    def __init__(self):
+        self.vertexList={}
+
+    def addVertex(self,id):
+        newVertex=Vertex(id)
+        self.vertexList[id]=newVertex
+
+    def addEdges(self,f,t,weight):
+        fromVertex=self.vertexList[f]
+        destinationVertex=self.vertexList[t]
+        fromVertex.addNeighbor(destinationVertex,weight)
+
+
+theGraph=Graph()
+
+for i in range(6):
+    theGraph.addVertex(i)
+
+theGraph.addEdges(0,1,5)
+theGraph.addEdges(0,5,2)
+theGraph.addEdges(1,2,4)
+theGraph.addEdges(2,3,9)
+theGraph.addEdges(3,4,7)
+theGraph.addEdges(3,5,3)
+theGraph.addEdges(4,0,1)
+theGraph.addEdges(5,4,8)
+theGraph.addEdges(5,2,1)
+
+
+
+for v in theGraph.vertexList:
+    theVertex=theGraph.vertexList[v]
+    for w in theVertex.connectedTo:
+        print("(%d,%d)"% (v,w.id))
