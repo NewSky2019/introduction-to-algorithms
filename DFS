@@ -1,0 +1,66 @@
+class Vertex:
+    def __init__(self,id):
+        self.id=id
+        self.connectedTo={}
+        self.color="white"
+        self.predecessor=None
+        self.discoverTime=None
+        self.finishTime=None
+
+    def addNeighbor(self,nbr,weight):
+        self.connectedTo[nbr]=weight
+
+
+class Graph:
+    def __init__(self):
+        self.vertexList={}
+        self.time=0
+
+    def addVertex(self,id):
+        newVertex=Vertex(id)
+        self.vertexList[id]=newVertex
+
+    def addEdges(self,f,t,weight):
+        fromVertex=self.vertexList[f]
+        destinationVertex=self.vertexList[t]
+        fromVertex.addNeighbor(destinationVertex,weight)
+
+
+    def dfs(self):
+        for v in self.vertexList:
+            if self.vertexList[v].color=="white":
+                self.dfsVisit(self.vertexList[v])
+
+
+    def dfsVisit(self,s):
+        print(s.id)
+        s.color="grey"
+        self.time=self.time+1
+        s.discoverTime=self.time
+        for w in s.connectedTo:
+            if w.color=="white":
+                w.predecessor=s
+                self.dfsVisit(w)
+
+        s.color="black"
+        self.time=self.time+1
+        s.finishTime=self.time
+
+
+
+theGraph=Graph()
+
+for i in range(6):
+    theGraph.addVertex(i)
+
+theGraph.addEdges(0,1,5)
+theGraph.addEdges(0,5,2)
+theGraph.addEdges(1,2,4)
+theGraph.addEdges(2,3,9)
+theGraph.addEdges(3,4,7)
+theGraph.addEdges(3,5,3)
+theGraph.addEdges(4,0,1)
+theGraph.addEdges(5,4,8)
+theGraph.addEdges(5,2,1)
+
+theGraph.dfs()
